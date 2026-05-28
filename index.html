@@ -61,11 +61,21 @@
     marked.setOptions({ breaks: true });
 
     function renderMarkdown(text) {
+      // Booking URLs first (more specific), then general location URLs
+      text = text.replace(
+        /(?<!\()(https:\/\/footsolutions\.com\/locations\/[^\s)]*\/book\/[^\s)]*)/g,
+        '[Book an Appointment]($1)'
+      );
       text = text.replace(
         /(?<!\()(https:\/\/footsolutions\.com\/locations\/[^\s)]*)/g,
         '[Find a Store Near You]($1)'
       );
       let html = marked.parse(text);
+      // Style booking links first, then general location links
+      html = html.replace(
+        /<a href="(https:\/\/footsolutions\.com\/locations\/[^"]*\/book\/[^"]*)"[^>]*>[^<]*<\/a>/g,
+        '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128197; Book an Appointment</a>'
+      );
       html = html.replace(
         /<a href="(https:\/\/footsolutions\.com\/locations\/[^"]*)"[^>]*>[^<]*<\/a>/g,
         '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128205; Find a Store Near You</a>'
