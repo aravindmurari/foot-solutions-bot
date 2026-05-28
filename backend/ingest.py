@@ -69,14 +69,14 @@ def ingest():
     # Embed in small batches (free tier = 3 RPM, so pause between batches)
     print(f"\nEmbedding {len(all_chunks)} chunks via Voyage AI...")
     all_embeddings = []
-    batch_size = 10
+    batch_size = 5
     for i in range(0, len(all_chunks), batch_size):
         batch = all_chunks[i:i + batch_size]
         result = vo.embed(batch, model="voyage-3-lite", input_type="document")
         all_embeddings.extend(result.embeddings)
         print(f"  Embedded {min(i + batch_size, len(all_chunks))}/{len(all_chunks)}")
         if i + batch_size < len(all_chunks):
-            time.sleep(22)  # stay within 3 RPM free tier limit
+            time.sleep(25)  # stay within 3 RPM / 10K TPM free tier limits
 
     # Upsert to Pinecone in batches of 100
     print("\nUpserting to Pinecone...")

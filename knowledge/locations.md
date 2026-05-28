@@ -2,39 +2,43 @@
 
 ## Georgia Locations (5 stores)
 
-Georgia is home to Foot Solutions' corporate co-owner Bryan Scott, who is based in Atlanta.
+Georgia is home to Foot Solutions' corporate co-owner Bryan Scott, who is based in Atlanta. All Georgia locations accept HSA and FSA payments. Walk-ins always welcome.
 
 ### Brookhaven / Atlanta
 - **Address:** 2484 Briarcliff Rd NE, Suite #38, Atlanta, GA 30329
 - **Phone:** (404) 737-3338
-- **Walk-ins:** Welcome
-- **Website:** https://footsolutions.com/locations/brookhaven/
+- **Hours:** Tuesday-Friday 10am-6pm | Saturday 10am-5pm | Sunday 12pm-5pm | Monday Closed
+- **Book an appointment:** https://footsolutions.com/locations/brookhaven/book/
+- Custom orthotics typically ready within two weeks. Free 3D foot scan available.
 
 ### East Cobb / Marietta
 - **Address:** 4101 Roswell Road NE, Suite #800, Marietta, GA 30062
 - **Phone:** (770) 984-0844
-- **Walk-ins:** Welcome
-- **Website:** https://footsolutions.com/locations/marietta/
+- **Hours:** Monday-Friday 10am-6pm | Saturday 10am-5pm | Sunday Closed
+- **Book an appointment:** https://footsolutions.com/locations/east-cobb/book/
 
 ### Acworth
 - **Address:** 3450 Cobb Pkwy NW, Suite 170, Acworth, GA 30101
 - **Phone:** (770) 575-2238
-- **Walk-ins:** Welcome
+- **Hours:** Tuesday-Saturday 10am-5pm | Monday & Sunday Closed
+- **Book an appointment:** https://footsolutions.com/locations/acworth/book/
 
 ### Cumming
 - **Address:** 405 Peachtree Pkwy, Suite 105, Cumming, GA 30041
 - **Phone:** (470) 758-4741
-- **Walk-ins:** Welcome
+- **Hours:** Tuesday-Friday 11am-5pm | Monday, Saturday & Sunday Closed
+- **Book an appointment:** https://footsolutions.com/locations/cumming/book/
 
 ### Peachtree City
 - **Address:** 1211 North Peachtree Pkwy, Peachtree City, GA 30269
 - **Phone:** (770) 486-5567
-- **Walk-ins:** Welcome
-- **Expert on staff:** Michael Muncy — Board-Certified Pedorthist and instructor at the Academy of Pedorthic Science in Atlanta
+- **Hours:** Monday-Friday 10am-6pm | Saturday 10am-4pm | Sunday Closed
+- **Book an appointment:** https://footsolutions.com/locations/peachtree-city/book/
+- Expert on staff: Michael Muncy — Board-Certified Pedorthist and instructor at the Academy of Pedorthic Science in Atlanta
 
 ---
 
-## Full U.S. Location Directory (All 57 stores)
+## Full U.S. Location Directory
 
 ### Arizona (7)
 - **Goodyear**: 1981 N PebbleCreek Pkwy, Suite C5 | (623) 536-6676
@@ -63,7 +67,7 @@ Georgia is home to Foot Solutions' corporate co-owner Bryan Scott, who is based 
 - **Davie**: 2635 S University Dr | (754) 201-2848
 - **Delray Beach**: 9173 W Atlantic Ave, Suite 118 | (561) 536-5846
 - **Fort Myers**: 9902 Gulf Coast Main St, Suite D125 | (239) 337-9810
-- **Jacksonville Beach**: 4126 3rd St S, Space SC–22 | (904) 247-0460
+- **Jacksonville Beach**: 4126 3rd St S, Space SC-22 | (904) 247-0460
 - **Largo**: 13002 Seminole Blvd, Suite 6 | (727) 585-4200
 - **Naples**: 11196 Tamiami Trail N | (239) 254-5033
 - **Orange Park**: 2176 Park Ave, Suite 101 | (904) 269-1100
@@ -135,5 +139,5 @@ Georgia is home to Foot Solutions' corporate co-owner Bryan Scott, who is based 
 
 ---
 
-## Find Your Store
-Full store finder: https://footsolutions.com/locations/
+## Find Any Store
+Full store finder with hours and booking: https://footsolutions.com/locations/
