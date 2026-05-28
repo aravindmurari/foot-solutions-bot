@@ -15,18 +15,18 @@
   <div id="chat-container">
 
     <div id="chat-header">
-      <div id="header-logo-wrap">
-        <div id="header-icon">🦶</div>
-        <div id="header-info">
-          <div id="header-name">Foot Solutions <span id="online-badge">● Live</span></div>
-          <div id="bot-tagline"><span id="header-tagline"></span></div>
-        </div>
+      <!-- Official Foot Solutions white logo SVG -->
+      <img id="header-logo" src="fs-logo-white.svg" alt="Foot Solutions">
+      <div id="header-divider"></div>
+      <div id="header-right">
+        <div id="online-badge">● Live</div>
+        <div id="bot-tagline"><span id="header-tagline"></span></div>
       </div>
     </div>
 
     <div id="chat-messages">
       <div class="message-row bot-row" id="opening-row">
-        <div class="msg-avatar" id="opening-avatar">F</div>
+        <div class="msg-avatar" id="opening-avatar">FS</div>
         <div class="message bot-message" id="opening-message"></div>
       </div>
     </div>
@@ -44,14 +44,12 @@
   </div>
 
   <script>
-    // Apply config
     document.getElementById('page-title').textContent     = CLIENT_CONFIG.pageTitle;
     document.getElementById('header-tagline').textContent = CLIENT_CONFIG.tagline;
-    document.getElementById('opening-avatar').textContent = CLIENT_CONFIG.avatarLetter;
     document.getElementById('opening-message').innerHTML  = CLIENT_CONFIG.openingMessage;
     document.getElementById('chat-input').placeholder     = CLIENT_CONFIG.inputPlaceholder;
 
-    const API_URL   = CLIENT_CONFIG.apiUrl;
+    const API_URL    = CLIENT_CONFIG.apiUrl;
     const SESSION_ID = crypto.randomUUID();
 
     const messagesEl = document.getElementById('chat-messages');
@@ -63,18 +61,15 @@
     marked.setOptions({ breaks: true });
 
     function renderMarkdown(text) {
-      // Convert Foot Solutions store locator URL to a styled button
       text = text.replace(
         /(?<!\()(https:\/\/footsolutions\.com\/locations\/[^\s)]*)/g,
         '[Find a Store Near You]($1)'
       );
       let html = marked.parse(text);
-      // Style the store locator link as a button
       html = html.replace(
         /<a href="(https:\/\/footsolutions\.com\/locations\/[^"]*)"[^>]*>[^<]*<\/a>/g,
         '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128205; Find a Store Near You</a>'
       );
-      // Open all other links in new tab
       html = html.replace(/<a href="(?!https:\/\/footsolutions\.com\/locations\/)/g, '<a target="_blank" rel="noopener" href="');
       return html;
     }
@@ -86,7 +81,7 @@
       if (role === 'bot') {
         const avatar = document.createElement('div');
         avatar.className = 'msg-avatar';
-        avatar.textContent = CLIENT_CONFIG.avatarLetter;
+        avatar.textContent = 'FS';
         row.appendChild(avatar);
       }
 
@@ -111,7 +106,7 @@
 
       const avatar = document.createElement('div');
       avatar.className = 'msg-avatar';
-      avatar.textContent = CLIENT_CONFIG.avatarLetter;
+      avatar.textContent = 'FS';
 
       const dots = document.createElement('div');
       dots.className = 'typing-indicator';
