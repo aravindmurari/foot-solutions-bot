@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Foot Solutions — AI Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="config.js"></script>
+</head>
+<body>
+  <div id="chat-container">
+
+    <div id="chat-header">
+      <div id="header-logo-wrap">
+        <div id="header-icon">🦶</div>
+        <div id="header-info">
+          <div id="header-name">Foot Solutions <span id="online-badge">● Live</span></div>
+          <div id="bot-tagline"><span id="header-tagline"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="chat-messages">
+      <div class="message-row bot-row" id="opening-row">
+        <div class="msg-avatar" id="opening-avatar">F</div>
+        <div class="message bot-message" id="opening-message"></div>
+      </div>
+    </div>
+
+    <div id="chat-input-area">
+      <textarea id="chat-input" placeholder="" autocomplete="off" autofocus rows="1"></textarea>
+      <button id="send-btn" title="Send">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    // Apply config
+    document.getElementById('page-title').textContent     = CLIENT_CONFIG.pageTitle;
+    document.getElementById('header-tagline').textContent = CLIENT_CONFIG.tagline;
+    document.getElementById('opening-avatar').textContent = CLIENT_CONFIG.avatarLetter;
+    document.getElementById('opening-message').innerHTML  = CLIENT_CONFIG.openingMessage;
+    document.getElementById('chat-input').placeholder     = CLIENT_CONFIG.inputPlaceholder;
+
+    const API_URL   = CLIENT_CONFIG.apiUrl;
+    const SESSION_ID = crypto.randomUUID();
+
+    const messagesEl = document.getElementById('chat-messages');
+    const inputEl    = document.getElementById('chat-input');
+    const sendBtn    = document.getElementById('send-btn');
+
+    let history = [];
+
+    marked.setOptions({ breaks: true });
+
+    function renderMarkdown(text) {
+      // Convert Foot Solutions store locator URL to a styled button
+      text = text.replace(
+        /(?<!\()(https:\/\/footsolutions\.com\/locations\/[^\s)]*)/g,
+        '[Find a Store Near You]($1)'
+      );
+      let html = marked.parse(text);
+      // Style the store locator link as a button
+      html = html.replace(
+        /<a href="(https:\/\/footsolutions\.com\/locations\/[^"]*)"[^>]*>[^<]*<\/a>/g,
+        '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128205; Find a Store Near You</a>'
+      );
+      // Open all other links in new tab
+      html = html.replace(/<a href="(?!https:\/\/footsolutions\.com\/locations\/)/g, '<a target="_blank" rel="noopener" href="');
+      return html;
+    }
+
+    function appendMessage(text, role) {
+      const row = document.createElement('div');
+      row.className = `message-row ${role}-row`;
+
+      if (role === 'bot') {
+        const avatar = document.createElement('div');
+        avatar.className = 'msg-avatar';
+        avatar.textContent = CLIENT_CONFIG.avatarLetter;
+        row.appendChild(avatar);
+      }
+
+      const bubble = document.createElement('div');
+      bubble.className = `message ${role}-message`;
+      if (role === 'bot') {
+        bubble.innerHTML = renderMarkdown(text);
+      } else {
+        bubble.textContent = text;
+      }
+
+      row.appendChild(bubble);
+      messagesEl.appendChild(row);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+      return bubble;
+    }
+
+    function showTyping() {
+      const row = document.createElement('div');
+      row.className = 'message-row bot-row';
+      row.id = 'typing-row';
+
+      const avatar = document.createElement('div');
+      avatar.className = 'msg-avatar';
+      avatar.textContent = CLIENT_CONFIG.avatarLetter;
+
+      const dots = document.createElement('div');
+      dots.className = 'typing-indicator';
+      dots.innerHTML = '<span></span><span></span><span></span>';
+
+      row.appendChild(avatar);
+      row.appendChild(dots);
+      messagesEl.appendChild(row);
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    }
+
+    function hideTyping() {
+      const el = document.getElementById('typing-row');
+      if (el) el.remove();
+    }
+
+    async function sendMessage() {
+      const text = inputEl.value.trim();
+      if (!text) return;
+
+      inputEl.value = '';
+      inputEl.style.height = 'auto';
+      inputEl.disabled = true;
+      sendBtn.disabled = true;
+
+      appendMessage(text, 'user');
+      showTyping();
+
+      try {
+        const res = await fetch(`${API_URL}/chat/stream`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history: history.slice(-10), session_id: SESSION_ID }),
+        });
+
+        if (!res.ok) throw new Error(`Server error: ${res.status}`);
+
+        hideTyping();
+        const botBubble = appendMessage('', 'bot');
+        let sseBuffer = '';
+        let fullText  = '';
+
+        const reader  = res.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          sseBuffer += decoder.decode(value, { stream: true });
+          const lines = sseBuffer.split('\n');
+          sseBuffer = lines.pop();
+
+          for (const line of lines) {
+            if (!line.startsWith('data: ')) continue;
+            const payload = line.slice(6);
+            if (payload === '[DONE]') break;
+            try {
+              const { token } = JSON.parse(payload);
+              fullText += token;
+              botBubble.innerHTML = renderMarkdown(fullText);
+              messagesEl.scrollTop = messagesEl.scrollHeight;
+            } catch (_) {}
+          }
+        }
+
+        history.push({ role: 'user',      content: text });
+        history.push({ role: 'assistant', content: fullText });
+
+      } catch (err) {
+        hideTyping();
+        appendMessage('Sorry, I ran into an issue. Please try again in a moment.', 'bot');
+        console.error(err);
+      } finally {
+        inputEl.disabled = false;
+        sendBtn.disabled = false;
+        inputEl.focus();
+      }
+    }
+
+    inputEl.addEventListener('input', () => {
+      inputEl.style.height = 'auto';
+      inputEl.style.height = inputEl.scrollHeight + 'px';
+    });
+
+    sendBtn.addEventListener('click', sendMessage);
+    inputEl.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+    });
+  </script>
+</body>
+</html>
