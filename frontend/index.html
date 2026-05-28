@@ -77,7 +77,7 @@
         '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128197; Book an Appointment</a>'
       );
       html = html.replace(
-        /<a href="(https:\/\/footsolutions\.com\/locations\/[^"]*)"[^>]*>[^<]*<\/a>/g,
+        /<a href="(https:\/\/footsolutions\.com\/locations\/(?![^"]*\/book\/)[^"]*)"[^>]*>[^<]*<\/a>/g,
         '<a href="$1" target="_blank" rel="noopener" class="store-btn">&#128205; Find a Store Near You</a>'
       );
       html = html.replace(/<a href="(?!https:\/\/footsolutions\.com\/locations\/)/g, '<a target="_blank" rel="noopener" href="');
