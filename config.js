@@ -4,7 +4,7 @@
 
 const CLIENT_CONFIG = {
   // Backend URL (update to Railway URL after deployment)
-  apiUrl: 'http://localhost:8003',
+  apiUrl: 'https://foot-solutions-bot-production.up.railway.app',
 
   // Header tagline
   tagline: 'Foot Wellness Experts — Custom Orthotics & Footwear',
